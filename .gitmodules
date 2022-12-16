@@ -1,0 +1,15 @@
+[submodule "ArduinoTempLogger"]
+	path = ArduinoTempLogger
+	url = https://github.com/xpress-embedo/ArduinoTempLogger.git
+[submodule "DistanceMeasurement"]
+	path = DistanceMeasurement
+	url = https://github.com/xpress-embedo/Distance_HC_SR04.git
+[submodule "ESP8266/HomeAutomation"]
+	path = ESP8266/HomeAutomation
+	url = https://github.com/xpress-embedo/HomeAutomation.git
+[submodule "ArduinoWeatherStation"]
+	path = ArduinoWeatherStation
+	url = https://github.com/xpress-embedo/ArduinoWeatherStation.git
+[submodule "ArduinoWeatherStationTFT"]
+	path = ArduinoWeatherStationTFT
+	url = https://github.com/xpress-embedo/ArduinoWeatherStationTFT.git
