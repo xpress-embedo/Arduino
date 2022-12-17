@@ -5,6 +5,7 @@
 #include <DHT_U.h>
 
 // Macros
+#define FILE_NAME_SIZE          (13u)
 #define SD_BUFFER_SIZE          (20u)
 #define LED_TASK_TIME           (1000u)
 #define DHT11_TASK_TIME         (2000u)
@@ -41,6 +42,7 @@ MISO  -- 12
 CLK   -- 13
 CS    -- 4
 */
+char filename[FILE_NAME_SIZE] = { 0 };
 char sd_buffer[SD_BUFFER_SIZE] = { 0 };
 File my_file;
 
@@ -99,11 +101,31 @@ void loop()
       temperature = event_temp.temperature;
       // Read the humidity value
       humidity = event_humid.relative_humidity;
-      Serial.print(F("Humidity: "));
-      Serial.print(humidity);
-      Serial.print(F("%, Temperature: "));
-      Serial.print(temperature);
-      Serial.println(F("C"));
+
+      // get the data from RTC
+      DateTime now = rtc.now();
+      day = now.day();
+      month = now.month();
+      year = now.year();
+      year = year-2000u;
+      hour = now.hour();
+      minute = now.minute();
+      second = now.second();
+
+      // Saving only the integer part
+      uint8_t temp = (uint8_t)temperature;
+      uint8_t humid = (uint8_t)humidity;
+
+      // prepare filename
+      snprintf( filename, FILE_NAME_SIZE, "%.2d-%.2d-%d.txt", month, day, year);
+      // Save data in the memory card
+      snprintf( sd_buffer, SD_BUFFER_SIZE, "%.2d:%.2d:%.2d,%d,%d", \
+                hour, minute, second, temp, humid );
+      // printing SD card buffer data, for debugging or for plotting also
+      Serial.println( sd_buffer );
+      my_file = SD.open( filename, FILE_WRITE );
+      my_file.println( sd_buffer );
+      my_file.close();
     }
   }
 
